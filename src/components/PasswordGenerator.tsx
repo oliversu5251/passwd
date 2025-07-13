@@ -19,6 +19,7 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
   const [passwordType, setPasswordType] = useState<'random' | 'memorable' | 'pin' | 'letters'>('random')
   const [batchCount, setBatchCount] = useState(1)
   const [showBatchOptions, setShowBatchOptions] = useState(false)
+  const [previousLength, setPreviousLength] = useState(12) // 记住切换前的长度
 
   // 字符集定义
   const charSets = {
@@ -202,12 +203,26 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
     }
   }
 
-  // 监听密码类型切换，切换到pin时自动设为6位
+  // 监听密码类型切换，自动设置合适的默认长度
   React.useEffect(() => {
-    if (passwordType === 'pin' && length !== 6) {
-      setLength(6)
+    if (passwordType === 'pin') {
+      // 切换到PIN码时，保存当前长度并设置为6位
+      if (length !== 6) {
+        setPreviousLength(length)
+        setLength(6)
+      }
+    } else if (length === 6 && previousLength !== 6) {
+      // 从PIN码切换到其他类型时，恢复之前的长度
+      setLength(previousLength)
     }
   }, [passwordType])
+
+  // 监听长度变化，更新previousLength（当不是PIN码时）
+  React.useEffect(() => {
+    if (passwordType !== 'pin' && length !== previousLength) {
+      setPreviousLength(length)
+    }
+  }, [length, passwordType, previousLength])
 
   return (
     <div className="space-y-6">
