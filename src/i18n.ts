@@ -320,4 +320,18 @@ export const I18N = {
       ko: '모든 비밀번호는 로컬에서 생성되어 개인정보가 안전합니다.',
     },
   },
+  header: {
+    local: {
+      zh: '100% 本地生成',
+      en: '100% Local Generation',
+      ja: '100% ローカル生成',
+      ko: '100% 로컬 생성',
+    },
+    safe: {
+      zh: '快速安全',
+      en: 'Fast & Secure',
+      ja: '高速・安全',
+      ko: '빠르고 안전함',
+    }
+  },
 }

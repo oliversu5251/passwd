@@ -76,9 +76,26 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       <div className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto px-8 py-4 flex items-center justify-between">
           <Header lang={lang} i18n={I18N} />
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
+            {/* Header右侧信息 */}
+            <div className="hidden md:flex items-center space-x-6 bg-gray-100/70 dark:bg-gray-600/60 rounded-xl px-8 py-1">
+              <div className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-200">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{I18N.header.local[lang]}</span>
+              </div>
+              <div className="h-5 w-px bg-gray-300 dark:bg-gray-500 mx-2" />
+              <div className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-200">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span>{I18N.header.safe[lang]}</span>
+              </div>
+            </div>
+            {/* 语言切换 */}
             <LanguageSelect lang={lang} onChange={handleLangChange} />
           </div>
         </div>
@@ -105,7 +122,7 @@ function App() {
       </main>
       <footer className="mt-16 py-8 border-t border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-4 text-center text-gray-600 dark:text-gray-400">
-          <p>{I18N.footer.tip[lang]}</p>
+          <p>&copy; 2025 SecurePass Generator. {I18N.footer.tip[lang]}</p>
         </div>
       </footer>
     </div>
