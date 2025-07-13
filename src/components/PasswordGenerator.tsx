@@ -1,12 +1,15 @@
 import React, { useState, useCallback } from 'react'
 import { Password } from '../App'
 import StrengthIndicator from './StrengthIndicator'
+import { Lang } from '../i18n'
 
 interface PasswordGeneratorProps {
   onPasswordGenerated: (password: Omit<Password, 'id' | 'timestamp'>) => void
+  lang: Lang
+  i18n: any
 }
 
-const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerated }) => {
+const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerated, lang, i18n }) => {
   const [password, setPassword] = useState('')
   const [length, setLength] = useState(12)
   const [includeUppercase, setIncludeUppercase] = useState(true)
@@ -204,7 +207,7 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
       {/* 密码显示区域 */}
       <div className="card">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-          生成的密码
+          {i18n.result.title[lang]}
         </h2>
 
         <div className="space-y-4">
@@ -214,24 +217,22 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
               value={password}
               readOnly
               className="input flex-1 font-mono text-lg"
-              placeholder="点击生成按钮创建密码"
+              placeholder={i18n.result.title[lang]}
             />
             <button
               onClick={copyToClipboard}
               disabled={!password}
               className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-              </svg>
+              {i18n.result.copy[lang]}
             </button>
           </div>
 
           {password && (
             <div className="space-y-2">
-              <StrengthIndicator strength={calculateStrength(password)} />
+              <StrengthIndicator strength={calculateStrength(password)} lang={lang} i18n={i18n} />
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                密码长度: {password.length} 位
+                {i18n.result.length[lang]}: {password.length}
               </p>
             </div>
           )}
@@ -242,21 +243,21 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            配置选项
+            {i18n.config.title[lang]}
           </h2>
           <div className="flex gap-2">
             <button
               onClick={generatePassword}
               className="btn btn-primary"
             >
-              生成密码
+              {i18n.config.generate[lang]}
             </button>
             {showBatchOptions && (
               <button
                 onClick={generateBatchPasswords}
                 className="btn btn-secondary"
               >
-                批量生成 ({batchCount}个)
+                {i18n.config.batchGenerate[lang]} ({batchCount}{i18n.config.batchCount[lang]})
               </button>
             )}
           </div>
@@ -265,14 +266,14 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
           {/* 密码类型选择 */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              密码类型
+              {i18n.config.type[lang]}
             </label>
             <div className="grid grid-cols-2 gap-2">
               {[
-                { value: 'random', label: '随机密码', desc: '完全随机字符' },
-                { value: 'memorable', label: '易记密码', desc: '基于单词' },
-                { value: 'pin', label: 'PIN码', desc: '纯数字' },
-                { value: 'letters', label: '字母密码', desc: '仅字母' }
+                { value: 'random', label: i18n.config.random[lang], desc: i18n.config.randomDesc[lang] },
+                { value: 'memorable', label: i18n.config.memorable[lang], desc: i18n.config.memorableDesc[lang] },
+                { value: 'pin', label: i18n.config.pin[lang], desc: i18n.config.pinDesc[lang] },
+                { value: 'letters', label: i18n.config.letters[lang], desc: i18n.config.lettersDesc[lang] }
               ].map(type => (
                 <button
                   key={type.value}
@@ -297,7 +298,7 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
           {/* 密码长度 */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              密码长度: {length}
+              {i18n.config.length[lang]}: {length}
             </label>
             <input
               type="range"
@@ -317,14 +318,14 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
           {passwordType === 'random' && (
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                包含字符类型
+                {i18n.config.charset[lang]}
               </label>
               <div className="space-y-2">
                 {[
-                  { key: 'uppercase', label: '大写字母 (A-Z)', state: includeUppercase, setter: setIncludeUppercase },
-                  { key: 'lowercase', label: '小写字母 (a-z)', state: includeLowercase, setter: setIncludeLowercase },
-                  { key: 'numbers', label: '数字 (0-9)', state: includeNumbers, setter: setIncludeNumbers },
-                  { key: 'symbols', label: '特殊字符 (!@#$%^&*)', state: includeSymbols, setter: setIncludeSymbols }
+                  { key: 'uppercase', label: i18n.config.uppercase[lang], state: includeUppercase, setter: setIncludeUppercase },
+                  { key: 'lowercase', label: i18n.config.lowercase[lang], state: includeLowercase, setter: setIncludeLowercase },
+                  { key: 'numbers', label: i18n.config.numbers[lang], state: includeNumbers, setter: setIncludeNumbers },
+                  { key: 'symbols', label: i18n.config.symbols[lang], state: includeSymbols, setter: setIncludeSymbols }
                 ].map(item => (
                   <label key={item.key} className="flex items-center">
                     <input
@@ -348,13 +349,13 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
               onClick={() => setShowBatchOptions(!showBatchOptions)}
               className="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400"
             >
-              {showBatchOptions ? '隐藏' : '显示'} 批量生成选项
+              {showBatchOptions ? i18n.config.hideBatch[lang] : i18n.config.showBatch[lang]} {i18n.config.batch[lang]}
             </button>
 
             {showBatchOptions && (
               <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  生成数量: {batchCount}
+                  {i18n.config.batchCount[lang]}: {batchCount}
                 </label>
                 <input
                   type="range"

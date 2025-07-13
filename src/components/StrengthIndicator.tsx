@@ -1,15 +1,18 @@
 import React from 'react'
+import { Lang } from '../i18n'
 
 interface StrengthIndicatorProps {
   strength: 'weak' | 'medium' | 'strong' | 'very-strong'
+  lang: Lang
+  i18n: any
 }
 
-const StrengthIndicator: React.FC<StrengthIndicatorProps> = ({ strength }) => {
+const StrengthIndicator: React.FC<StrengthIndicatorProps> = ({ strength, lang, i18n }) => {
   const getStrengthConfig = (strength: string) => {
     switch (strength) {
       case 'weak':
         return {
-          label: '弱',
+          label: i18n.strength.weak[lang],
           color: 'danger',
           width: '25%',
           bgColor: 'bg-danger-500',
@@ -17,7 +20,7 @@ const StrengthIndicator: React.FC<StrengthIndicatorProps> = ({ strength }) => {
         }
       case 'medium':
         return {
-          label: '中',
+          label: i18n.strength.medium[lang],
           color: 'warning',
           width: '50%',
           bgColor: 'bg-warning-500',
@@ -25,7 +28,7 @@ const StrengthIndicator: React.FC<StrengthIndicatorProps> = ({ strength }) => {
         }
       case 'strong':
         return {
-          label: '强',
+          label: i18n.strength.strong[lang],
           color: 'success',
           width: '75%',
           bgColor: 'bg-success-500',
@@ -33,7 +36,7 @@ const StrengthIndicator: React.FC<StrengthIndicatorProps> = ({ strength }) => {
         }
       case 'very-strong':
         return {
-          label: '极强',
+          label: i18n.strength.veryStrong[lang],
           color: 'success',
           width: '100%',
           bgColor: 'bg-success-600',
@@ -56,25 +59,23 @@ const StrengthIndicator: React.FC<StrengthIndicatorProps> = ({ strength }) => {
     <div className="space-y-2">
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-          密码强度
+          {i18n.strength.label[lang]}
         </span>
         <span className={`text-sm font-semibold ${config.textColor}`}>
           {config.label}
         </span>
       </div>
-
       <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
         <div
           className={`h-2 rounded-full transition-all duration-300 ${config.bgColor}`}
           style={{ width: config.width }}
         />
       </div>
-
       <div className="text-xs text-gray-600 dark:text-gray-400">
-        {strength === 'weak' && '建议使用至少4位密码或包含更多字符类型'}
-        {strength === 'medium' && '密码强度一般，建议增加长度或特殊字符'}
-        {strength === 'strong' && '密码强度良好，适合大多数用途'}
-        {strength === 'very-strong' && '密码强度极高，非常安全'}
+        {strength === 'weak' && i18n.strength.tips.weak[lang]}
+        {strength === 'medium' && i18n.strength.tips.medium[lang]}
+        {strength === 'strong' && i18n.strength.tips.strong[lang]}
+        {strength === 'very-strong' && i18n.strength.tips.veryStrong[lang]}
       </div>
     </div>
   )

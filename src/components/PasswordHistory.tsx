@@ -1,12 +1,15 @@
 import React from 'react'
 import { Password } from '../App'
+import { Lang } from '../i18n'
 
 interface PasswordHistoryProps {
   passwords: Password[]
   onClear: () => void
+  lang: Lang
+  i18n: any
 }
 
-const PasswordHistory: React.FC<PasswordHistoryProps> = ({ passwords, onClear }) => {
+const PasswordHistory: React.FC<PasswordHistoryProps> = ({ passwords, onClear, lang, i18n }) => {
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text)
@@ -19,21 +22,14 @@ const PasswordHistory: React.FC<PasswordHistoryProps> = ({ passwords, onClear })
     const date = new Date(timestamp)
     const now = new Date()
     const diff = now.getTime() - date.getTime()
-
-    if (diff < 60000) return '刚刚'
-    if (diff < 3600000) return `${Math.floor(diff / 60000)}分钟前`
-    if (diff < 86400000) return `${Math.floor(diff / 3600000)}小时前`
+    if (diff < 60000) return i18n.history.ago.just[lang]
+    if (diff < 3600000) return `${Math.floor(diff / 60000)}${i18n.history.ago.min[lang]}`
+    if (diff < 86400000) return `${Math.floor(diff / 3600000)}${i18n.history.ago.hour[lang]}`
     return date.toLocaleDateString()
   }
 
   const getTypeLabel = (type: string) => {
-    switch (type) {
-      case 'random': return '随机'
-      case 'memorable': return '易记'
-      case 'pin': return 'PIN'
-      case 'letters': return '字母'
-      default: return type
-    }
+    return i18n.history.type[type]?.[lang] || type
   }
 
   if (passwords.length === 0) {
@@ -41,15 +37,15 @@ const PasswordHistory: React.FC<PasswordHistoryProps> = ({ passwords, onClear })
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            历史记录
+            {i18n.history.title[lang]}
           </h3>
         </div>
         <div className="text-center py-8 text-gray-500 dark:text-gray-400">
           <svg className="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <p>暂无历史记录</p>
-          <p className="text-sm">生成的密码将显示在这里</p>
+          <p>{i18n.history.empty[lang]}</p>
+          <p className="text-sm">{i18n.history.tip[lang]}</p>
         </div>
       </div>
     )
@@ -59,16 +55,15 @@ const PasswordHistory: React.FC<PasswordHistoryProps> = ({ passwords, onClear })
     <div className="card">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-          历史记录 ({passwords.length})
+          {i18n.history.title[lang]} ({passwords.length})
         </h3>
         <button
           onClick={onClear}
           className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
         >
-          清除
+          {i18n.history.clear[lang]}
         </button>
       </div>
-
       <div className="space-y-3 max-h-96 overflow-y-auto">
         {passwords.map((pwd) => (
           <div
@@ -85,7 +80,6 @@ const PasswordHistory: React.FC<PasswordHistoryProps> = ({ passwords, onClear })
                     {formatTime(pwd.timestamp)}
                   </span>
                 </div>
-
                 <div className="flex items-center space-x-2">
                   <code className="flex-1 text-sm font-mono text-gray-900 dark:text-gray-100 break-all">
                     {pwd.value}
@@ -93,20 +87,19 @@ const PasswordHistory: React.FC<PasswordHistoryProps> = ({ passwords, onClear })
                   <button
                     onClick={() => copyToClipboard(pwd.value)}
                     className="flex-shrink-0 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                    title="复制密码"
+                    title={i18n.result.copy[lang]}
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
                   </button>
                 </div>
-
                 <div className="flex items-center space-x-2 mt-1">
                   <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {pwd.value.length}位
+                    {pwd.value.length}{i18n.history.length[lang]}
                   </span>
                   <div className="flex items-center space-x-1">
-                    <span className="text-xs text-gray-500 dark:text-gray-400">强度:</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{i18n.history.strength[lang]}:</span>
                     <div className={`w-2 h-2 rounded-full ${
                       pwd.strength === 'weak' ? 'bg-danger-500' :
                       pwd.strength === 'medium' ? 'bg-warning-500' :

@@ -3,6 +3,8 @@ import Header from './components/Header'
 import PasswordGenerator from './components/PasswordGenerator'
 import PasswordHistory from './components/PasswordHistory'
 import ThemeToggle from './components/ThemeToggle'
+import LanguageSelect from './components/LanguageSelect'
+import { I18N, LANGUAGES, Lang } from './i18n'
 
 export interface Password {
   id: string
@@ -12,15 +14,25 @@ export interface Password {
   type: string
 }
 
+function getDefaultLang(): Lang {
+  const saved = localStorage.getItem('lang') as Lang | null
+  if (saved && LANGUAGES[saved]) return saved
+  const browser = navigator.language.toLowerCase()
+  if (browser.startsWith('zh')) return 'zh'
+  if (browser.startsWith('ja')) return 'ja'
+  if (browser.startsWith('ko')) return 'ko'
+  return 'en'
+}
+
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [passwordHistory, setPasswordHistory] = useState<Password[]>([])
+  const [lang, setLang] = useState<Lang>(getDefaultLang())
 
   // 初始化主题
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-
     if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
       setIsDarkMode(true)
       document.documentElement.classList.add('dark')
@@ -31,7 +43,6 @@ function App() {
   const toggleTheme = () => {
     const newTheme = !isDarkMode
     setIsDarkMode(newTheme)
-
     if (newTheme) {
       document.documentElement.classList.add('dark')
       localStorage.setItem('theme', 'dark')
@@ -41,6 +52,12 @@ function App() {
     }
   }
 
+  // 切换语言
+  const handleLangChange = (l: Lang) => {
+    setLang(l)
+    localStorage.setItem('lang', l)
+  }
+
   // 添加密码到历史记录
   const addToHistory = (password: Omit<Password, 'id' | 'timestamp'>) => {
     const newPassword: Password = {
@@ -48,7 +65,6 @@ function App() {
       id: Date.now().toString(),
       timestamp: Date.now()
     }
-
     setPasswordHistory(prev => [newPassword, ...prev.slice(0, 9)]) // 只保留最近10个
   }
 
@@ -59,37 +75,37 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-      <Header />
-
+      <div className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <Header lang={lang} i18n={I18N} />
+          <div className="flex items-center gap-4">
+            <LanguageSelect lang={lang} onChange={handleLangChange} />
+          </div>
+        </div>
+      </div>
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="grid gap-8 lg:grid-cols-3">
           {/* 主生成器区域 */}
           <div className="lg:col-span-2">
-            <PasswordGenerator onPasswordGenerated={addToHistory} />
+            <PasswordGenerator onPasswordGenerated={addToHistory} lang={lang} i18n={I18N} />
           </div>
-
           {/* 侧边栏 */}
           <div className="space-y-6">
             <div className="card">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  主题设置
+                  {I18N.theme.title[lang]}
                 </h3>
               </div>
               <ThemeToggle isDarkMode={isDarkMode} onToggle={toggleTheme} />
             </div>
-
-            <PasswordHistory
-              passwords={passwordHistory}
-              onClear={clearHistory}
-            />
+            <PasswordHistory passwords={passwordHistory} onClear={clearHistory} lang={lang} i18n={I18N} />
           </div>
         </div>
       </main>
-
       <footer className="mt-16 py-8 border-t border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-4 text-center text-gray-600 dark:text-gray-400">
-          <p>&copy; 2025 SecurePass Generator. 所有密码生成均在本地完成，确保您的隐私安全。</p>
+          <p>{I18N.footer.tip[lang]}</p>
         </div>
       </footer>
     </div>
