@@ -15,7 +15,7 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
   const [includeUppercase, setIncludeUppercase] = useState(true)
   const [includeLowercase, setIncludeLowercase] = useState(true)
   const [includeNumbers, setIncludeNumbers] = useState(true)
-  const [includeSymbols, setIncludeSymbols] = useState(true)
+  const [includeSymbols, setIncludeSymbols] = useState(false)
   const [passwordType, setPasswordType] = useState<'random' | 'memorable' | 'pin' | 'letters'>('random')
   const [batchCount, setBatchCount] = useState(1)
   const [showBatchOptions, setShowBatchOptions] = useState(false)
@@ -201,6 +201,13 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
       }
     }
   }
+
+  // 监听密码类型切换，切换到pin时自动设为6位
+  React.useEffect(() => {
+    if (passwordType === 'pin' && length !== 6) {
+      setLength(6)
+    }
+  }, [passwordType])
 
   return (
     <div className="space-y-6">
