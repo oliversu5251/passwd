@@ -71,7 +71,7 @@ const StrengthIndicator: React.FC<StrengthIndicatorProps> = ({ strength }) => {
       </div>
 
       <div className="text-xs text-gray-600 dark:text-gray-400">
-        {strength === 'weak' && '建议使用更长的密码或包含更多字符类型'}
+        {strength === 'weak' && '建议使用至少4位密码或包含更多字符类型'}
         {strength === 'medium' && '密码强度一般，建议增加长度或特殊字符'}
         {strength === 'strong' && '密码强度良好，适合大多数用途'}
         {strength === 'very-strong' && '密码强度极高，非常安全'}

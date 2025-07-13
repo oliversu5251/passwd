@@ -8,7 +8,7 @@ interface PasswordGeneratorProps {
 
 const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerated }) => {
   const [password, setPassword] = useState('')
-  const [length, setLength] = useState(16)
+  const [length, setLength] = useState(12)
   const [includeUppercase, setIncludeUppercase] = useState(true)
   const [includeLowercase, setIncludeLowercase] = useState(true)
   const [includeNumbers, setIncludeNumbers] = useState(true)
@@ -25,9 +25,9 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
     symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?'
   }
 
-  // 计算密码强度
+    // 计算密码强度
   const calculateStrength = useCallback((pwd: string): Password['strength'] => {
-    if (pwd.length < 8) return 'weak'
+    if (pwd.length < 4) return 'weak'
 
     let score = 0
     if (/[a-z]/.test(pwd)) score++
@@ -35,6 +35,7 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
     if (/[0-9]/.test(pwd)) score++
     if (/[^A-Za-z0-9]/.test(pwd)) score++
 
+    if (pwd.length >= 8) score++
     if (pwd.length >= 12) score++
     if (pwd.length >= 16) score++
 
@@ -283,14 +284,14 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
             </label>
             <input
               type="range"
-              min="8"
+              min="2"
               max="128"
               value={length}
               onChange={(e) => setLength(Number(e.target.value))}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
             />
             <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
-              <span>8</span>
+              <span>2</span>
               <span>128</span>
             </div>
           </div>

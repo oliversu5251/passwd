@@ -89,7 +89,7 @@ function App() {
 
       <footer className="mt-16 py-8 border-t border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-4 text-center text-gray-600 dark:text-gray-400">
-          <p>&copy; 2024 SecurePass Generator. 所有密码生成均在本地完成，确保您的隐私安全。</p>
+          <p>&copy; 2025 SecurePass Generator. 所有密码生成均在本地完成，确保您的隐私安全。</p>
         </div>
       </footer>
     </div>
