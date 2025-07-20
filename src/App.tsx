@@ -157,6 +157,10 @@ function App() {
               <PasswordHistory passwords={passwordHistory} onClear={clearHistory} lang={lang} i18n={I18N} />
             </div>
           </div>
+          {/* SEO说明区 */}
+          <section className="mt-12 mb-4 text-center text-sm text-gray-500 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            {I18N.seoDesc[lang]}
+          </section>
         </main>
         <footer className="mt-16 py-8 border-t border-gray-200 dark:border-gray-700">
           <div className="container mx-auto px-4 text-center text-gray-600 dark:text-gray-400">

@@ -49,6 +49,12 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
     return 'very-strong'
   }, [])
 
+  // 全局单词表，供易记密码和用户名生成共用
+  const words = Array.from(new Set([
+    'apple', 'banana', 'cherry', 'dragon', 'eagle', 'forest', 'garden', 'house', 'island', 'jungle',
+    'river', 'mountain', 'cloud', 'star', 'ocean', 'wolf', 'tiger', 'lion', 'fox', 'hawk'
+  ]))
+
   // 生成随机密码
   const generateRandomPassword = useCallback(() => {
     let chars = ''
@@ -75,11 +81,9 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
 
   // 生成易记密码
   const generateMemorablePassword = useCallback(() => {
-    const words = ['apple', 'banana', 'cherry', 'dragon', 'eagle', 'forest', 'garden', 'house', 'island', 'jungle']
     const word = words[Math.floor(Math.random() * words.length)]
     const number = Math.floor(Math.random() * 1000)
     const symbol = '!@#$%^&*'[Math.floor(Math.random() * 8)]
-
     return word.charAt(0).toUpperCase() + word.slice(1) + number + symbol
   }, [])
 
@@ -116,6 +120,19 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
 
     return result
   }, [length, includeUppercase, includeLowercase])
+
+  // 生成用户名（易记用户名）
+  const generateUsername = useCallback(() => {
+    const word1 = words[Math.floor(Math.random() * words.length)]
+    const word2 = words[Math.floor(Math.random() * words.length)]
+    const username = word1.charAt(0).toUpperCase() + word1.slice(1) + word2.charAt(0).toUpperCase() + word2.slice(1)
+    setPassword(username)
+    onPasswordGenerated({
+      value: username,
+      strength: 'strong',
+      type: 'username',
+    })
+  }, [onPasswordGenerated])
 
   // 生成密码
   const generatePassword = useCallback(() => {
@@ -364,6 +381,18 @@ const PasswordGenerator: React.FC<PasswordGeneratorProps> = ({ onPasswordGenerat
               </div>
             </div>
           )}
+          {/* 易记密码下生成用户名按钮 */}
+          {/* {passwordType === 'memorable' && (
+            <div className="mt-2">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={generateUsername}
+              >
+                {i18n.username.label[lang]}
+              </button>
+            </div>
+          )} */}
 
           {/* 批量生成选项 */}
           <div>

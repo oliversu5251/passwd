@@ -42,6 +42,7 @@ const PasswordHistory: React.FC<PasswordHistoryProps> = ({ passwords, onClear, l
   }
 
   const getTypeLabel = (type: string) => {
+    if (type === 'username') return i18n.username.type[lang]
     return i18n.history.type[type]?.[lang] || type
   }
 

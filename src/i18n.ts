@@ -82,10 +82,10 @@ export const I18N = {
       ko: '랜덤',
     },
     memorable: {
-      zh: '易记密码',
-      en: 'Memorable',
-      ja: '覚えやすい',
-      ko: '기억하기 쉬움',
+      zh: '易记密码/用户名',
+      en: 'Memorable/Username',
+      ja: '覚えやすい/ユーザー名',
+      ko: '기억하기 쉬움/사용자명',
     },
     pin: {
       zh: 'PIN码',
@@ -332,6 +332,26 @@ export const I18N = {
       en: 'Fast & Secure',
       ja: '高速・安全',
       ko: '빠르고 안전함',
+    }
+  },
+  seoDesc: {
+    zh: 'SecurePass Generator 是一个安全、免费的在线密码生成器，支持强密码、随机密码、易记密码、PIN码等多种类型，帮助您快速生成高强度安全密码，保护您的账户安全。适合注册、登录、网站管理等多场景使用。',
+    en: 'SecurePass Generator is a secure, free online password generator supporting strong, random, memorable passwords and PINs. Quickly create high-strength passwords to protect your accounts. Ideal for registration, login, website management and more.',
+    ja: 'SecurePass Generatorは、安全で無料のオンラインパスワード生成ツールです。強力なパスワード、ランダムパスワード、覚えやすいパスワード、PINなど多様なタイプに対応。アカウントの安全を守るためにご利用ください。',
+    ko: 'SecurePass Generator는 안전하고 무료인 온라인 비밀번호 생성기입니다. 강력한 비밀번호, 랜덤 비밀번호, 기억하기 쉬운 비밀번호, PIN 등 다양한 유형을 지원합니다. 계정 보안을 위해 빠르게 안전한 비밀번호를 생성하세요.',
+  },
+  username: {
+    label: {
+      zh: '生成用户名',
+      en: 'Generate Username',
+      ja: 'ユーザー名生成',
+      ko: '사용자명 생성',
+    },
+    type: {
+      zh: '用户名',
+      en: 'Username',
+      ja: 'ユーザー名',
+      ko: '사용자명',
     }
   },
 }
