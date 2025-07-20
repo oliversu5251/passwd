@@ -2,6 +2,19 @@ import React from 'react'
 import { Password } from '../App'
 import { Lang } from '../i18n'
 
+const strengthStars = {
+  'weak': 1,
+  'medium': 2,
+  'strong': 3,
+  'very-strong': 4,
+}
+const starColor = {
+  'weak': 'text-danger-500',
+  'medium': 'text-warning-500',
+  'strong': 'text-success-500',
+  'very-strong': 'text-success-600',
+}
+
 interface PasswordHistoryProps {
   passwords: Password[]
   onClear: () => void
@@ -106,6 +119,19 @@ const PasswordHistory: React.FC<PasswordHistoryProps> = ({ passwords, onClear, l
                       pwd.strength === 'strong' ? 'bg-success-500' :
                       'bg-success-600'
                     }`} />
+                    <span className="flex items-center ml-1">
+                      {[1,2,3,4].map(i => (
+                        <svg
+                          key={i}
+                          className={`w-3 h-3 ${i <= strengthStars[pwd.strength] ? starColor[pwd.strength] : 'text-gray-300 dark:text-gray-600'}`}
+                          fill={i <= strengthStars[pwd.strength] ? 'currentColor' : 'none'}
+                          stroke="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <polygon points="10,2 12.59,7.36 18.51,8.09 14,12.26 15.18,18.02 10,15 4.82,18.02 6,12.26 1.49,8.09 7.41,7.36" />
+                        </svg>
+                      ))}
+                    </span>
                   </div>
                 </div>
               </div>

@@ -7,6 +7,20 @@ interface StrengthIndicatorProps {
   i18n: any
 }
 
+const strengthStars = {
+  'weak': 1,
+  'medium': 2,
+  'strong': 3,
+  'very-strong': 4,
+}
+
+const starColor = {
+  'weak': 'text-danger-500',
+  'medium': 'text-warning-500',
+  'strong': 'text-success-500',
+  'very-strong': 'text-success-600',
+}
+
 const StrengthIndicator: React.FC<StrengthIndicatorProps> = ({ strength, lang, i18n }) => {
   const getStrengthConfig = (strength: string) => {
     switch (strength) {
@@ -54,6 +68,7 @@ const StrengthIndicator: React.FC<StrengthIndicatorProps> = ({ strength, lang, i
   }
 
   const config = getStrengthConfig(strength)
+  const stars = strengthStars[strength]
 
   return (
     <div className="space-y-2">
@@ -61,8 +76,21 @@ const StrengthIndicator: React.FC<StrengthIndicatorProps> = ({ strength, lang, i
         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
           {i18n.strength.label[lang]}
         </span>
-        <span className={`text-sm font-semibold ${config.textColor}`}>
+        <span className={`text-sm font-semibold ${config.textColor} flex items-center gap-1`}>
           {config.label}
+          <span className="ml-2 flex items-center">
+            {[1,2,3,4].map(i => (
+              <svg
+                key={i}
+                className={`w-4 h-4 ${i <= stars ? starColor[strength] : 'text-gray-300 dark:text-gray-600'}`}
+                fill={i <= stars ? 'currentColor' : 'none'}
+                stroke="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <polygon points="10,2 12.59,7.36 18.51,8.09 14,12.26 15.18,18.02 10,15 4.82,18.02 6,12.26 1.49,8.09 7.41,7.36" />
+              </svg>
+            ))}
+          </span>
         </span>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
