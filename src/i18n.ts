@@ -334,11 +334,31 @@ export const I18N = {
       ko: '빠르고 안전함',
     }
   },
-  seoDesc: {
-    zh: 'SecurePass Generator 是一个安全、免费的在线密码生成器，支持强密码、随机密码、易记密码、PIN码等多种类型，帮助您快速生成高强度安全密码，保护您的账户安全。适合注册、登录、网站管理等多场景使用。',
-    en: 'SecurePass Generator is a secure, free online password generator supporting strong, random, memorable passwords and PINs. Quickly create high-strength passwords to protect your accounts. Ideal for registration, login, website management and more.',
-    ja: 'SecurePass Generatorは、安全で無料のオンラインパスワード生成ツールです。強力なパスワード、ランダムパスワード、覚えやすいパスワード、PINなど多様なタイプに対応。アカウントの安全を守るためにご利用ください。',
-    ko: 'SecurePass Generator는 안전하고 무료인 온라인 비밀번호 생성기입니다. 강력한 비밀번호, 랜덤 비밀번호, 기억하기 쉬운 비밀번호, PIN 등 다양한 유형을 지원합니다. 계정 보안을 위해 빠르게 안전한 비밀번호를 생성하세요.',
+  webDesc: {
+    zh: [
+      'SecurePass Generator 是一个安全、免费的在线密码生成器，支持多种类型：',
+      '• 强密码、随机密码、易记密码/用户名、PIN码',
+      '帮助您快速生成高强度安全密码，保护您的账户安全。',
+      '适合注册、登录、网站管理等多场景使用。'
+    ],
+    en: [
+      'SecurePass Generator is a secure, free online password generator supporting:',
+      '• Strong, random, memorable passwords/usernames, and PINs',
+      'Quickly create high-strength passwords to protect your accounts.',
+      'Ideal for registration, login, website management and more.'
+    ],
+    ja: [
+      'SecurePass Generatorは、安全で無料のオンラインパスワード生成ツールです。',
+      '• 強力なパスワード、ランダムパスワード、覚えやすいパスワード/ユーザー名、PINなど多様なタイプに対応。',
+      'アカウントの安全を守るためにご利用ください。',
+      '登録、ログイン、サイト管理など様々なシーンで活躍します。'
+    ],
+    ko: [
+      'SecurePass Generator는 안전하고 무료인 온라인 비밀번호 생성기입니다.',
+      '• 강력한 비밀번호, 랜덤 비밀번호, 기억하기 쉬운 비밀번호/사용자명, PIN 등 다양한 유형 지원',
+      '계정 보안을 위해 빠르고 안전한 비밀번호를 생성하세요.',
+      '회원가입, 로그인, 사이트 관리 등 다양한 상황에 적합합니다.'
+    ]
   },
   username: {
     label: {

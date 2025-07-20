@@ -158,8 +158,20 @@ function App() {
             </div>
           </div>
           {/* SEO说明区 */}
-          <section className="mt-12 mb-4 text-center text-sm text-gray-500 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            {I18N.seoDesc[lang]}
+          <section className="mt-12 mb-4 text-center max-w-3xl mx-auto leading-relaxed">
+            {I18N.webDesc[lang].map((line, idx) => (
+              <p
+                key={idx}
+                className={
+                  idx === 1
+                    ? 'text-base font-semibold text-primary-600 dark:text-primary-400 my-2'
+                    : 'text-sm text-gray-500 dark:text-gray-400 my-1'
+                }
+                style={idx === 0 ? { fontSize: '1.1em', fontWeight: 600 } : {}}
+              >
+                {line}
+              </p>
+            ))}
           </section>
         </main>
         <footer className="mt-16 py-8 border-t border-gray-200 dark:border-gray-700">
